@@ -193,6 +193,32 @@ app.post('/api/schedule/save', (req, res) => {
     }
 });
 
+// Get schedule data endpoint
+app.get('/api/schedule/data', (req, res) => {
+    try {
+        const schedules = dataStorage.getSchedules();
+        
+        // Organize schedules by type
+        const organizedData = {
+            appointments: schedules.filter(s => s.type === 'appointment').map(s => s.data),
+            cleaners: schedules.filter(s => s.type === 'cleaner').map(s => s.data),
+            clients: schedules.filter(s => s.type === 'client').map(s => s.data)
+        };
+        
+        res.json({
+            success: true,
+            data: organizedData
+        });
+        
+    } catch (error) {
+        console.error('Error loading schedule data:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to load schedule data'
+        });
+    }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
     const stats = dataStorage.getStats();
