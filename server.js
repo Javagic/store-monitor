@@ -171,13 +171,20 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`Visit http://localhost:${PORT} for API information`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Erix Clean Hub is running on port ${PORT}`);
+    console.log(`🌐 Local: http://localhost:${PORT}`);
+    console.log(`🌍 External: http://0.0.0.0:${PORT}`);
+    console.log(`📱 Welcome Hub: http://0.0.0.0:${PORT}/`);
+    console.log(`🧹 Cleaning Service: http://0.0.0.0:${PORT}/cleaning`);
+    console.log(`💫 Modern Services: http://0.0.0.0:${PORT}/services`);
+    console.log(`📅 Schedule Manager: http://0.0.0.0:${PORT}/schedule`);
+    console.log(`🤖 AI Generator: http://0.0.0.0:${PORT}/ai-generator`);
+    console.log(`📊 Dashboard: http://0.0.0.0:${PORT}/dashboard`);
     
     // Start monitoring job
     monitoringJob.start();
-    console.log('Item monitoring scheduler started');
+    console.log('📡 Item monitoring scheduler started');
 });
 
 // Graceful shutdown
