@@ -6,7 +6,7 @@
 echo "🚀 Deploying Store Monitor updates..."
 
 # Configuration - Update these with your details
-DROPLET_IP="YOUR_DROPLET_IP"
+DROPLET_IP="209.38.105.200"
 APP_PATH="/var/www/store-monitor"
 USER="root"
 

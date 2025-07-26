@@ -20,8 +20,8 @@
 ## Step 2: Connect to Your Droplet
 
 ```bash
-# Replace YOUR_DROPLET_IP with actual IP
-ssh root@YOUR_DROPLET_IP
+# Connect to your droplet
+ssh root@209.38.105.200
 ```
 
 ## Step 3: Run Setup Script
@@ -30,7 +30,7 @@ Copy the `setup-droplet.sh` script to your droplet and run it:
 
 ```bash
 # Upload the setup script (from your local machine)
-scp deploy/setup-droplet.sh root@YOUR_DROPLET_IP:/root/
+scp deploy/setup-droplet.sh root@209.38.105.200:/root/
 
 # On the droplet, make it executable and run
 chmod +x setup-droplet.sh
@@ -41,7 +41,7 @@ chmod +x setup-droplet.sh
 
 ```bash
 # Clone your repository
-git clone https://github.com/yourusername/store-monitor.git /var/www/store-monitor
+git clone https://github.com/Javagic/store-monitor.git /var/www/store-monitor
 
 # Navigate to app directory
 cd /var/www/store-monitor
@@ -122,13 +122,13 @@ sudo certbot --nginx -d your-domain.com
 
 1. **Check if server is running**:
    ```bash
-   curl http://YOUR_DROPLET_IP:3000/health
+   curl http://209.38.105.200:3000/health
    ```
 
 2. **Test API endpoints**:
    ```bash
    # Add an item to monitor
-   curl -X POST http://YOUR_DROPLET_IP:3000/api/items \
+   curl -X POST http://209.38.105.200:3000/api/items \
      -H "Content-Type: application/json" \
      -d '{
        "name": "Test Item",

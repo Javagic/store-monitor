@@ -27,7 +27,7 @@ sudo chown -R $USER:$USER /var/www/store-monitor
 
 # Clone your repository (you'll need to replace with your actual repo)
 echo "📂 Clone your repository to /var/www/store-monitor"
-echo "Example: git clone https://github.com/yourusername/store-monitor.git /var/www/store-monitor"
+echo "Example: git clone https://github.com/Javagic/store-monitor.git /var/www/store-monitor"
 
 echo "📝 Next steps:"
 echo "1. Clone your repository to /var/www/store-monitor"
