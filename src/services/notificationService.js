@@ -3,41 +3,15 @@ const nodemailer = require('nodemailer');
 class NotificationService {
     constructor() {
         this.emailTransporter = null;
-        this.initializeEmailService();
+        console.log('📧 Email notifications disabled - console logging only');
     }
 
     /**
-     * Initialize email service
+     * Initialize email service (DISABLED)
      */
     initializeEmailService() {
-        // Configure email transporter
-        if (process.env.EMAIL_SERVICE && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-            this.emailTransporter = nodemailer.createTransport({
-                service: process.env.EMAIL_SERVICE, // 'gmail', 'hotmail', 'yahoo', etc.
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
-                }
-            });
-
-            console.log(`Email service initialized: ${process.env.EMAIL_SERVICE}`);
-        } else if (process.env.SMTP_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-            // Custom SMTP configuration
-            this.emailTransporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: process.env.SMTP_PORT || 587,
-                secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
-                }
-            });
-
-            console.log(`Custom SMTP service initialized: ${process.env.SMTP_HOST}`);
-        } else {
-            console.log('Email service not configured - notifications will be logged only');
-            console.log('Supported services: gmail, hotmail, yahoo, or custom SMTP');
-        }
+        console.log('📧 Email service disabled - notifications will be logged to console only');
+        console.log('💡 All item availability changes will be displayed in the terminal');
     }
 
     /**
@@ -53,55 +27,37 @@ class NotificationService {
     async sendNotification(contactInfo, notification) {
         const timestamp = new Date().toISOString();
         
-        // Log notification (always)
-        console.log(`[${timestamp}] NOTIFICATION:`, {
-            recipient: contactInfo.email || contactInfo.phone,
-            subject: notification.subject,
-            message: notification.message
-        });
-
-        // Send email if configured
-        if (this.emailTransporter && contactInfo.email) {
-            try {
-                await this.sendEmail(contactInfo.email, notification);
-                console.log(`Email sent to ${contactInfo.email}`);
-            } catch (error) {
-                console.error(`Failed to send email to ${contactInfo.email}:`, error.message);
-                throw error;
+        // 🎯 CONSOLE NOTIFICATION ONLY (Email disabled)
+        console.log('\n🚨 ITEM AVAILABILITY ALERT!');
+        console.log('===============================');
+        console.log(`⏰ Time: ${new Date().toLocaleString()}`);
+        console.log(`📧 Would notify: ${contactInfo.email || contactInfo.phone || 'Unknown'}`);
+        console.log(`📝 Subject: ${notification.subject}`);
+        console.log(`💬 Message: ${notification.message}`);
+        
+        if (notification.item) {
+            console.log(`🛍️  Item: ${notification.item.name}`);
+            console.log(`🔗 URL: ${notification.item.url}`);
+            if (notification.item.price) {
+                console.log(`💰 Price: $${notification.item.price}`);
             }
         }
+        console.log('===============================\n');
 
-        // Future: Add SMS, webhook, or other notification methods here
-        if (contactInfo.phone) {
-            await this.sendSMS(contactInfo.phone, notification);
-        }
-
-        if (contactInfo.webhook) {
-            await this.sendWebhook(contactInfo.webhook, notification);
-        }
+        // Note: Email functionality has been removed
+        console.log('📧 Email notifications are disabled - check console for alerts');
 
         return true;
     }
 
     /**
-     * Send email notification
+     * Send email notification (DISABLED - Console only)
      */
     async sendEmail(email, notification) {
-        if (!this.emailTransporter) {
-            throw new Error('Email service not configured');
-        }
-
-        const htmlContent = this.generateEmailHTML(notification);
-
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: notification.subject,
-            text: notification.message,
-            html: htmlContent
-        };
-
-        return await this.emailTransporter.sendMail(mailOptions);
+        console.log(`📧 [Email Disabled] Would send to: ${email}`);
+        console.log(`📝 Subject: ${notification.subject}`);
+        console.log(`💬 Message: ${notification.message}`);
+        return { messageId: 'console-only', accepted: [email] };
     }
 
     /**

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to PNG Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .converter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .svg-container {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            text-align: center;
+            background: white;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>SVG to PNG Converter</h1>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click on each "Convert to PNG" button below</li>
+            <li>Right-click on the rendered SVG and select "Save image as..."</li>
+            <li>Choose PNG format and save to your desired location</li>
+        </ol>
+    </div>
+
+    <div class="converter">
+        <h3>Erix Clean Main Logo</h3>
+        <button onclick="loadSvg('logo', '/assets/erix-logo-main.svg')">Convert to PNG</button>
+        <div id="logo" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Erix Clean Icon (Small)</h3>
+        <button onclick="loadSvg('icon', '/assets/erix-icon-small.svg')">Convert to PNG</button>
+        <div id="icon" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Erix Clean Banner</h3>
+        <button onclick="loadSvg('banner', '/assets/erix-banner.svg')">Convert to PNG</button>
+        <div id="banner" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Home Cleaning Icon</h3>
+        <button onclick="loadSvg('home', '/assets/icons/home-cleaning.svg')">Convert to PNG</button>
+        <div id="home" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Office Cleaning Icon</h3>
+        <button onclick="loadSvg('office', '/assets/icons/office-cleaning.svg')">Convert to PNG</button>
+        <div id="office" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Deep Cleaning Icon</h3>
+        <button onclick="loadSvg('deep', '/assets/icons/deep-cleaning.svg')">Convert to PNG</button>
+        <div id="deep" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <div class="converter">
+        <h3>Window Cleaning Icon</h3>
+        <button onclick="loadSvg('window', '/assets/icons/window-cleaning.svg')">Convert to PNG</button>
+        <div id="window" class="svg-container">Click button to load SVG</div>
+    </div>
+
+    <script>
+        async function loadSvg(containerId, svgPath) {
+            try {
+                const response = await fetch(svgPath);
+                const svgContent = await response.text();
+                document.getElementById(containerId).innerHTML = svgContent;
+                
+                // Add some styling to make it look better
+                const svgElement = document.querySelector(`#${containerId} svg`);
+                if (svgElement) {
+                    svgElement.style.maxWidth = '100%';
+                    svgElement.style.height = 'auto';
+                    svgElement.style.border = '1px solid #ddd';
+                    svgElement.style.borderRadius = '5px';
+                }
+                
+                console.log(`Loaded SVG: ${svgPath}`);
+            } catch (error) {
+                console.error('Error loading SVG:', error);
+                document.getElementById(containerId).innerHTML = 
+                    `<p style="color: red;">Error loading SVG: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-convert all SVGs for convenience
+        window.addEventListener('load', () => {
+            const buttons = document.querySelectorAll('button[onclick]');
+            buttons.forEach((button, index) => {
+                setTimeout(() => button.click(), index * 500);
+            });
+        });
+    </script>
+</body>
+</html>

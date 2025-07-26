@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Monitor - Quick Status</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+        .status-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .status-value {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #667eea;
+        }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .action-btn {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .action-btn:hover {
+            background: #5a6fd8;
+        }
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Store Monitor</h1>
+            <p>Quick Status Overview</p>
+        </div>
+
+        <div id="status-container">
+            <div class="status-card">
+                <div class="status-title">📦 Monitored Items</div>
+                <div class="status-value" id="item-count">Loading...</div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-title">✅ Available Now</div>
+                <div class="status-value" id="available-count">Loading...</div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-title">🔔 System Status</div>
+                <div class="status-value" id="system-status">Checking...</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <a href="/dashboard" class="action-btn">📊 Full Dashboard</a>
+            <button class="action-btn" onclick="testNotification()">🧪 Test Alert</button>
+        </div>
+
+        <div class="timestamp" id="last-update">
+            Last updated: <span id="update-time">--</span>
+        </div>
+    </div>
+
+    <script>
+        async function loadStatus() {
+            try {
+                // Get system health
+                const healthResponse = await fetch('/health');
+                const health = await healthResponse.json();
+                
+                // Get items
+                const itemsResponse = await fetch('/api/items');
+                const items = await itemsResponse.json();
+                
+                // Update display
+                document.getElementById('item-count').textContent = items.count || 0;
+                
+                const availableCount = (items.items || []).filter(item => item.isAvailable).length;
+                document.getElementById('available-count').textContent = availableCount;
+                
+                document.getElementById('system-status').textContent = health.status === 'OK' ? '🟢 Online' : '🔴 Offline';
+                document.getElementById('update-time').textContent = new Date().toLocaleTimeString();
+                
+            } catch (error) {
+                console.error('Error loading status:', error);
+                document.getElementById('system-status').textContent = '🔴 Error';
+            }
+        }
+
+        async function testNotification() {
+            try {
+                const response = await fetch('/api/items/test-notification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'quickstatus@test.com' })
+                });
+                
+                if (response.ok) {
+                    alert('🎉 Test notification sent! Check your server console.');
+                }
+            } catch (error) {
+                alert('❌ Error sending test notification');
+            }
+        }
+
+        // Load status on page load and refresh every 10 seconds
+        loadStatus();
+        setInterval(loadStatus, 10000);
+    </script>
+</body>
+</html>

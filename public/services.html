@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erix Clean - Professional Cleaning Services in Tbilisi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: #333;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+
+        .cta-nav {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: transform 0.3s;
+        }
+
+        .cta-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="dots" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1200" height="600" fill="url(%23dots)"/></svg>');
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Service Calculator */
+        .calculator {
+            background: white;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: white;
+            clip-path: ellipse(100% 100% at 50% 0%);
+        }
+
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .calculator-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f8ff 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .calculator h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .calc-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .calc-item:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .calc-item.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .calc-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .calc-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .counter-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .counter-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .counter-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .price-amount {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .price-note {
+            opacity: 0.9;
+        }
+
+        /* What's Included Section */
+        .included {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .included-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .room-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .room-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .room-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Not Included Section */
+        .not-included {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .not-included-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .not-included-item {
+            background: #fff5f5;
+            border: 2px solid #fed7d7;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .not-included-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .not-icon {
+            font-size: 2rem;
+            color: #e53e3e;
+            margin-bottom: 10px;
+        }
+
+        .deep-clean-cta {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .deep-clean-cta h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .deep-clean-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        /* Additional Services */
+        .additional {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .additional-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .additional-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .additional-item:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .additional-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .additional-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .additional-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 10px;
+        }
+
+        /* Before/After Gallery */
+        .gallery {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .before-after {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .before-after:hover {
+            transform: scale(1.02);
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 200px;
+        }
+
+        .before, .after {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .before img, .after img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .after .label {
+            background: #28a745;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .stars {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 25px;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-answer {
+            padding: 0 25px 25px;
+            color: #666;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .cta-button.secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .footer-section p, .footer-section li {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .calc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">ERIX CLEAN</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact" class="cta-nav">Get Quote</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Professional Cleaning Services</h1>
+            <p>Transform your space with Tbilisi's most trusted cleaning service. Quality guaranteed, satisfaction promised.</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2000+</span>
+                    <span class="stat-label">Cleanings Done</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4.9★</span>
+                    <span class="stat-label">Average Rating</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24h</span>
+                    <span class="stat-label">Response Time</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Calculator -->
+    <section class="calculator" id="calculator">
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <h2>Calculate Your Cleaning Cost</h2>
+                
+                <div class="calc-grid">
+                    <div class="calc-item" data-type="rooms">
+                        <div class="calc-icon">🏠</div>
+                        <h3>Rooms</h3>
+                        <div class="calc-counter">
+                            <button class="counter-btn" onclick="updateCounter('rooms', -1)">-</button>
+                            <span class="counter-value" id="rooms-count">1</span>
+                            <button class="counter-btn" onclick="updateCounter('rooms', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-item" data-type="bathrooms">
+                        <div class="calc-icon">🚿</div>
+                        <h3>Bathrooms</h3>
+                        <div class="calc-counter">
+                            <button class="counter-btn" onclick="updateCounter('bathrooms', -1)">-</button>
+                            <span class="counter-value" id="bathrooms-count">1</span>
+                            <button class="counter-btn" onclick="updateCounter('bathrooms', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-item" data-type="kitchen">
+                        <div class="calc-icon">🍳</div>
+                        <h3>Kitchen</h3>
+                        <div class="calc-counter">
+                            <button class="counter-btn" onclick="updateCounter('kitchen', -1)">-</button>
+                            <span class="counter-value" id="kitchen-count">1</span>
+                            <button class="counter-btn" onclick="updateCounter('kitchen', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-display">
+                    <div class="price-amount" id="total-price">₾80</div>
+                    <div class="price-note">Estimated price for standard cleaning</div>
+                </div>
+                
+                <a href="#contact" class="cta-button" style="margin-top: 20px;">Book This Service</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Included -->
+    <section class="included" id="services">
+        <div class="container">
+            <h2 class="section-title">What's Included in Standard Cleaning</h2>
+            <p class="section-subtitle">Our comprehensive cleaning checklist ensures every corner is spotless</p>
+            
+            <div class="included-grid">
+                <div class="room-card">
+                    <div class="room-header">
+                        <div class="room-icon">🛏️</div>
+                        <h3 class="room-title">Bedroom</h3>
+                    </div>
+                    <ul class="task-list">
+                        <li><span class="check-icon">✓</span> Make beds and fluff pillows</li>
+                        <li><span class="check-icon">✓</span> Dust all surfaces</li>
+                        <li><span class="check-icon">✓</span> Vacuum carpets and mop floors</li>
+                        <li><span class="check-icon">✓</span> Clean mirrors</li>
+                        <li><span class="check-icon">✓</span> Empty trash bins</li>
+                        <li><span class="check-icon">✓</span> Organize visible items</li>
+                    </ul>
+                </div>
+                
+                <div class="room-card">
+                    <div class="room-header">
+                        <div class="room-icon">🚿</div>
+                        <h3 class="room-title">Bathroom</h3>
+                    </div>
+                    <ul class="task-list">
+                        <li><span class="check-icon">✓</span> Scrub and disinfect toilet</li>
+                        <li><span class="check-icon">✓</span> Clean shower/tub</li>
+                        <li><span class="check-icon">✓</span> Sanitize sink and counters</li>
+                        <li><span class="check-icon">✓</span> Clean mirrors and fixtures</li>
+                        <li><span class="check-icon">✓</span> Mop and disinfect floors</li>
+                        <li><span class="check-icon">✓</span> Replace towels</li>
+                    </ul>
+                </div>
+                
+                <div class="room-card">
+                    <div class="room-header">
+                        <div class="room-icon">🍳</div>
+                        <h3 class="room-title">Kitchen</h3>
+                    </div>
+                    <ul class="task-list">
+                        <li><span class="check-icon">✓</span> Clean countertops</li>
+                        <li><span class="check-icon">✓</span> Wipe exterior appliances</li>
+                        <li><span class="check-icon">✓</span> Clean sink and faucet</li>
+                        <li><span class="check-icon">✓</span> Sweep and mop floors</li>
+                        <li><span class="check-icon">✓</span> Take out trash</li>
+                        <li><span class="check-icon">✓</span> Load/unload dishwasher</li>
+                    </ul>
+                </div>
+                
+                <div class="room-card">
+                    <div class="room-header">
+                        <div class="room-icon">🚪</div>
+                        <h3 class="room-title">Common Areas</h3>
+                    </div>
+                    <ul class="task-list">
+                        <li><span class="check-icon">✓</span> Dust furniture and surfaces</li>
+                        <li><span class="check-icon">✓</span> Vacuum carpets and rugs</li>
+                        <li><span class="check-icon">✓</span> Mop hard floors</li>
+                        <li><span class="check-icon">✓</span> Clean baseboards</li>
+                        <li><span class="check-icon">✓</span> Straighten cushions</li>
+                        <li><span class="check-icon">✓</span> Empty all trash bins</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Don't Clean -->
+    <section class="not-included">
+        <div class="container">
+            <h2 class="section-title">What's Not Included in Standard Cleaning</h2>
+            <p class="section-subtitle">These services are available in our deep cleaning package</p>
+            
+            <div class="not-included-grid">
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Inside Cabinets</h4>
+                </div>
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Inside Appliances</h4>
+                </div>
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Window Cleaning</h4>
+                </div>
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Garage/Basement</h4>
+                </div>
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Carpet Deep Clean</h4>
+                </div>
+                <div class="not-included-item">
+                    <div class="not-icon">🚫</div>
+                    <h4>Dish Washing</h4>
+                </div>
+            </div>
+            
+            <div class="deep-clean-cta">
+                <h3>Need These Services?</h3>
+                <p>All excluded services are included in our comprehensive deep cleaning package</p>
+                <div class="deep-clean-price">From ₾170</div>
+                <a href="#contact" class="cta-button">Choose Deep Cleaning</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="additional">
+        <div class="container">
+            <h2 class="section-title">Additional Services</h2>
+            <p class="section-subtitle">Customize your cleaning with these add-on services</p>
+            
+            <div class="additional-grid">
+                <div class="additional-item">
+                    <div class="additional-icon">🔥</div>
+                    <h4 class="additional-title">Oven Deep Clean</h4>
+                    <div class="additional-price">₾20</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">📱</div>
+                    <h4 class="additional-title">Microwave Interior</h4>
+                    <div class="additional-price">₾15</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">🐕</div>
+                    <h4 class="additional-title">Pet Hair Removal</h4>
+                    <div class="additional-price">₾35</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">🪟</div>
+                    <h4 class="additional-title">Window Cleaning</h4>
+                    <div class="additional-price">₾20/window</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">❄️</div>
+                    <h4 class="additional-title">Refrigerator Inside</h4>
+                    <div class="additional-price">₾25</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">🌿</div>
+                    <h4 class="additional-title">Balcony Cleaning</h4>
+                    <div class="additional-price">₾20</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">👕</div>
+                    <h4 class="additional-title">Ironing Service</h4>
+                    <div class="additional-price">₾15/30min</div>
+                </div>
+                
+                <div class="additional-item">
+                    <div class="additional-icon">🌱</div>
+                    <h4 class="additional-title">Eco Products</h4>
+                    <div class="additional-price">₾30</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Gallery -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Before & After Results</h2>
+            <p class="section-subtitle">See the transformation our professional cleaning brings</p>
+            
+            <div class="gallery-grid">
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Instagram post - 17.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Instagram post - 69.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Instagram post - 4.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Instagram post - 70.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Instagram post - 63.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Instagram post - 71.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Instagram post - 72.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Instagram post - 73.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Instagram post - 74.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Instagram post - 75.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <img src="/assets/rooms/Frame 6.png" alt="Before cleaning">
+                            <div class="label">Before</div>
+                        </div>
+                        <div class="after">
+                            <img src="/assets/rooms/Frame 11.png" alt="After cleaning">
+                            <div class="label">After</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <p class="section-subtitle">Real feedback from satisfied customers across Tbilisi</p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Erix Clean transformed our home! The team was professional, punctual, and incredibly thorough. They even cleaned places we didn't think to ask for. Highly recommended!"</p>
+                    <div class="testimonial-author">- Marina K., Vake</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"I've tried several cleaning services in Tbilisi, but Erix Clean is by far the best. They're reliable, affordable, and the quality is consistently excellent. My apartment has never looked better."</p>
+                    <div class="testimonial-author">- David T., Saburtalo</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"The deep cleaning service was amazing! They cleaned every corner of our apartment after renovation. The attention to detail was impressive. Will definitely use them again."</p>
+                    <div class="testimonial-author">- Ana M., Old Tbilisi</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Professional, friendly, and efficient. The booking process was smooth, and they arrived exactly on time. Our office has never been cleaner. Great value for money!"</p>
+                    <div class="testimonial-author">- Tech Startup, Vera</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"I love that they use eco-friendly products. As a mother of two young children, this gives me peace of mind. The cleaning quality is excellent and my kids are safe."</p>
+                    <div class="testimonial-author">- Nino L., Didube</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Emergency cleaning service saved my day! Had unexpected guests and they managed to clean my entire apartment in just 3 hours. Lifesavers!"</p>
+                    <div class="testimonial-author">- George R., Mtatsminda</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about our cleaning services</p>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How do I calculate the right apartment parameters?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    The minimum order includes 1 room, 1 bathroom, kitchen, and hallway. If you have a kitchen combined with living room, this counts as an additional room since we use different cleaning products for kitchen and living areas.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What equipment do your cleaners bring?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    Our cleaners arrive with all necessary professional equipment: cleaning products, microfiber cloths, mops, vacuum cleaners, and specialized tools for different surfaces. You don't need to provide anything.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What cleaning products do you use?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    We use professional-grade, eco-friendly cleaning products that are safe for children and pets. Our products are effective against bacteria and viruses while being gentle on surfaces and the environment.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Do I need to be home during cleaning?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    No, you don't need to stay home. Many clients provide access instructions and go about their day. However, please ensure someone is available at the end to inspect and approve the completed work.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How far in advance should I book?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    We recommend booking at least 24-48 hours in advance for regular cleaning. For deep cleaning or emergency services, we can often accommodate same-day requests based on availability.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What if I'm not satisfied with the cleaning?
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    We offer a 100% satisfaction guarantee. If you're not completely happy with our service, contact us within 24 hours and we'll return to address any concerns at no additional charge.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+        <div class="container">
+            <h2>Ready for a Spotless Home?</h2>
+            <p>Join hundreds of satisfied customers in Tbilisi. Book your cleaning service today!</p>
+            <div style="margin-top: 30px;">
+                <a href="tel:+995555123456" class="cta-button">📞 Call Now</a>
+                <a href="/cleaning#contact" class="cta-button secondary">💬 Get Quote</a>
+                <a href="/schedule" class="cta-button secondary">📅 Schedule</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Erix Clean</h3>
+                    <p>Tbilisi's premier cleaning service. Professional, reliable, and eco-friendly solutions for your home and office.</p>
+                    <p style="margin-top: 15px;">📞 +995 555 123 456<br>📧 info@erixclean.ge</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li>Standard Cleaning</li>
+                        <li>Deep Cleaning</li>
+                        <li>Office Cleaning</li>
+                        <li>Post-Construction</li>
+                        <li>Emergency Cleaning</li>
+                        <li>Window Cleaning</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Service Areas</h3>
+                    <ul>
+                        <li>Vake</li>
+                        <li>Saburtalo</li>
+                        <li>Old Tbilisi</li>
+                        <li>Vera</li>
+                        <li>Didube</li>
+                        <li>Mtatsminda</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/cleaning">About Us</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/schedule">Schedule</a></li>
+                        <li><a href="/dashboard">Store Monitor</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Erix Clean. All rights reserved. | Professional cleaning services in Tbilisi, Georgia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calculator functionality
+        let prices = {
+            rooms: 40,
+            bathrooms: 25,
+            kitchen: 30
+        };
+
+        function updateCounter(type, change) {
+            const counter = document.getElementById(type + '-count');
+            let current = parseInt(counter.textContent);
+            let newValue = Math.max(0, current + change);
+            if (type === 'rooms' || type === 'bathrooms' || type === 'kitchen') {
+                newValue = Math.max(1, newValue); // Minimum 1 for these
+            }
+            counter.textContent = newValue;
+            updatePrice();
+        }
+
+        function updatePrice() {
+            const rooms = parseInt(document.getElementById('rooms-count').textContent);
+            const bathrooms = parseInt(document.getElementById('bathrooms-count').textContent);
+            const kitchen = parseInt(document.getElementById('kitchen-count').textContent);
+            
+            const total = (rooms * prices.rooms) + (bathrooms * prices.bathrooms) + (kitchen * prices.kitchen);
+            document.getElementById('total-price').textContent = '₾' + total;
+        }
+
+        // FAQ functionality
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+            
+            // Close all FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+            
+            // Open clicked FAQ if it wasn't active
+            if (!isActive) {
+                button.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.room-card, .additional-item, .testimonial, .before-after').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Initialize price calculation
+        updatePrice();
+    </script>
+</body>
+</html>

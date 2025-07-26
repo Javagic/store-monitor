@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erix Clean - Professional Cleaning Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f0f8ff" width="1200" height="600"/><g fill="%23e6f3ff"><circle cx="200" cy="150" r="80"/><circle cx="800" cy="300" r="120"/><circle cx="1000" cy="100" r="60"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .service-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .price-note {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Room Gallery Section */
+        .room-gallery {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-gallery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: white;
+            clip-path: ellipse(100% 100% at 50% 0%);
+        }
+
+        .room-gallery::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: #f8f9fa;
+            clip-path: ellipse(100% 100% at 50% 100%);
+        }
+
+        .room-gallery .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .room-gallery .section-title {
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .room-gallery .section-subtitle {
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+
+        .room-grid {
+            columns: 3;
+            column-gap: 30px;
+            margin-top: 60px;
+            padding: 0 20px;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(50px) rotate(2deg);
+            position: relative;
+            break-inside: avoid;
+            margin-bottom: 30px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .room-card:nth-child(even) {
+            transform: translateY(50px) rotate(-2deg);
+        }
+
+        .room-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+        }
+
+        .room-card:hover {
+            transform: translateY(-15px) rotate(0deg) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+        }
+
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+        }
+
+        .room-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .room-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .room-info {
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(180deg, white 0%, #f8f9fa 100%);
+        }
+
+        .room-info h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .room-info p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 15px;
+        }
+
+        /* Wave decoration elements */
+        .wave-decoration {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .wave-1 {
+            top: 10%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, white 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .wave-2 {
+            top: 60%;
+            right: -5%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, white 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .wave-3 {
+            top: 30%;
+            right: 20%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, white 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        /* Organic masonry-like layout for all screens */
+        @media (min-width: 1200px) {
+            .room-grid {
+                columns: 4;
+                column-gap: 30px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .room-grid {
+                columns: 3;
+                column-gap: 25px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .room-grid {
+                columns: 2;
+                column-gap: 20px;
+                padding: 0 10px;
+            }
+            
+            .room-gallery {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .room-grid {
+                columns: 1;
+                column-gap: 15px;
+                padding: 0 10px;
+            }
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .about-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .about-features li:last-child {
+            border-bottom: none;
+        }
+
+        .about-image {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 15px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .pricing-card .price-unit {
+            color: #999;
+            font-size: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-features .check {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-form {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for elements coming into view */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <span style="font-size: 24px; font-weight: bold; color: #667eea;">ERIX CLEAN</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/dashboard" style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px;">🎯 Store Monitor</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Professional Cleaning Services in Tbilisi</h1>
+            <p>Reliable, affordable, and eco-friendly cleaning solutions for your home and office</p>
+            <a href="#contact" class="cta-button">Get Free Quote</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Professional cleaning solutions tailored to your needs</p>
+            
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <h3>Home Cleaning</h3>
+                    <p>Complete residential cleaning including all rooms, bathrooms, kitchen, and common areas.</p>
+                    <div class="service-price">₾80-150</div>
+                    <div class="price-note">Per visit (2-4 bedroom apt)</div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <h3>Office Cleaning</h3>
+                    <p>Professional office maintenance, desk cleaning, restrooms, and common workspace areas.</p>
+                    <div class="service-price">₾120-300</div>
+                    <div class="price-note">Per visit (small-medium office)</div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <h3>Deep Cleaning</h3>
+                    <p>Intensive cleaning service including appliances, inside cabinets, baseboards, and detailed work.</p>
+                    <div class="service-price">₾200-400</div>
+                    <div class="price-note">One-time service</div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <h3>Window Cleaning</h3>
+                    <p>Interior and exterior window cleaning, frames, and sills for crystal clear results.</p>
+                    <div class="service-price">₾50-100</div>
+                    <div class="price-note">Per property</div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🚿</div>
+                    <h3>Post-Construction</h3>
+                    <p>Specialized cleaning after renovations, construction dust removal, and debris cleanup.</p>
+                    <div class="service-price">₾300-600</div>
+                    <div class="price-note">Based on project size</div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🏃‍♀️</div>
+                    <h3>Emergency Cleaning</h3>
+                    <p>Same-day cleaning service for urgent situations, events, or unexpected guests.</p>
+                    <div class="service-price">₾150-250</div>
+                    <div class="price-note">Same-day service</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Room Gallery Section -->
+    <section class="room-gallery" id="gallery">
+        <!-- Wave decorations -->
+        <div class="wave-decoration wave-1"></div>
+        <div class="wave-decoration wave-2"></div>
+        <div class="wave-decoration wave-3"></div>
+        
+        <div class="container">
+            <h2 class="section-title">Our Cleaning Results</h2>
+            <p class="section-subtitle">See the spotless spaces we create for our clients in Tbilisi</p>
+            
+            <div class="room-grid">
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 17.png" alt="Professional Cleaning Result - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Kitchen Excellence</h3>
+                        <p>Spotless counters, organized cabinets, gleaming surfaces</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 4.png" alt="Bedroom Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Bedroom Perfection</h3>
+                        <p>Fresh, organized, and thoroughly cleaned bedrooms</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 63.png" alt="Bathroom Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Bathroom Brilliance</h3>
+                        <p>Sparkling tiles, spotless mirrors, sanitized surfaces</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 69.png" alt="Living Space - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Living Room Luxury</h3>
+                        <p>Dust-free furniture, organized spaces, bright atmosphere</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 70.png" alt="Professional Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Office Organization</h3>
+                        <p>Professional workspace cleaning and organization</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 71.png" alt="Home Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Home Harmony</h3>
+                        <p>Complete home transformation with attention to detail</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 72.png" alt="Deep Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Deep Clean Results</h3>
+                        <p>Intensive cleaning with premium results</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 73.png" alt="Quality Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Quality Assurance</h3>
+                        <p>Consistent excellence in every cleaning session</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 74.png" alt="Premium Service - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Premium Service</h3>
+                        <p>Luxury cleaning standards for discerning clients</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Instagram post - 75.png" alt="Erix Clean Excellence" loading="lazy">
+                    <div class="room-info">
+                        <h3>Cleaning Excellence</h3>
+                        <p>Where perfection meets professional cleaning</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Frame 6.png" alt="Modern Cleaning - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Modern Solutions</h3>
+                        <p>Contemporary cleaning approaches for modern homes</p>
+                    </div>
+                </div>
+                
+                <div class="room-card fade-in">
+                    <img src="/assets/rooms/Frame 11.png" alt="Professional Results - Erix Clean" loading="lazy">
+                    <div class="room-info">
+                        <h3>Professional Results</h3>
+                        <p>Trusted by Tbilisi families and businesses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h2>Why Choose Erix Clean?</h2>
+                    <p>With over 5 years of experience serving Tbilisi residents and businesses, we pride ourselves on delivering exceptional cleaning services that exceed expectations.</p>
+                    <p>Our team of trained professionals uses eco-friendly products and modern equipment to ensure your space is not just clean, but healthy and safe for your family or employees.</p>
+                    
+                    <ul class="about-features">
+                        <li>
+                            <span class="feature-icon">✅</span>
+                            <span>Fully insured and bonded team</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">🌱</span>
+                            <span>Eco-friendly cleaning products</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">⏰</span>
+                            <span>Flexible scheduling options</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">💯</span>
+                            <span>100% satisfaction guarantee</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📱</span>
+                            <span>Easy online booking system</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="about-image fade-in">
+                    🧹
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Transparent Pricing</h2>
+            <p class="section-subtitle">No hidden fees, clear pricing for all services</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <h3>Basic Clean</h3>
+                    <div class="price">₾80</div>
+                    <div class="price-unit">per visit</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> General cleaning</li>
+                        <li><span class="check">✓</span> Bathroom sanitization</li>
+                        <li><span class="check">✓</span> Kitchen cleaning</li>
+                        <li><span class="check">✓</span> Vacuum & mop floors</li>
+                        <li><span class="check">✓</span> Dust surfaces</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Choose Basic</a>
+                </div>
+
+                <div class="pricing-card featured fade-in">
+                    <h3>Standard Clean</h3>
+                    <div class="price">₾120</div>
+                    <div class="price-unit">per visit</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Everything in Basic</li>
+                        <li><span class="check">✓</span> Inside appliances</li>
+                        <li><span class="check">✓</span> Cabinet fronts</li>
+                        <li><span class="check">✓</span> Light fixtures</li>
+                        <li><span class="check">✓</span> Baseboards</li>
+                        <li><span class="check">✓</span> Window sills</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Choose Standard</a>
+                </div>
+
+                <div class="pricing-card fade-in">
+                    <h3>Premium Clean</h3>
+                    <div class="price">₾200</div>
+                    <div class="price-unit">per visit</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Everything in Standard</li>
+                        <li><span class="check">✓</span> Inside cabinets</li>
+                        <li><span class="check">✓</span> Oven deep clean</li>
+                        <li><span class="check">✓</span> Refrigerator inside</li>
+                        <li><span class="check">✓</span> Detailed bathroom</li>
+                        <li><span class="check">✓</span> Laundry room</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Choose Premium</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get Your Free Quote</h2>
+            <p class="section-subtitle">Contact us today for professional cleaning services</p>
+            
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="contact-item">
+                        <span class="icon">📞</span>
+                        <div>
+                            <strong>Phone:</strong><br>
+                            +995 555 123 456
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="icon">📧</span>
+                        <div>
+                            <strong>Email:</strong><br>
+                            info@erixclean.ge
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="icon">📍</span>
+                        <div>
+                            <strong>Service Area:</strong><br>
+                            Tbilisi and surrounding areas
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="icon">🕒</span>
+                        <div>
+                            <strong>Working Hours:</strong><br>
+                            Mon-Sat: 8:00 AM - 8:00 PM<br>
+                            Sunday: 10:00 AM - 6:00 PM
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form fade-in">
+                    <form id="quoteForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service">Service Type</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="home">Home Cleaning</option>
+                                <option value="office">Office Cleaning</option>
+                                <option value="deep">Deep Cleaning</option>
+                                <option value="windows">Window Cleaning</option>
+                                <option value="construction">Post-Construction</option>
+                                <option value="emergency">Emergency Cleaning</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Property Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Additional Details</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Tell us about your cleaning needs, property size, special requirements, etc."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="cta-button" style="width: 100%;">Get Free Quote</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Erix Clean</h3>
+                    <p>Professional cleaning services in Tbilisi. Your trusted partner for a cleaner, healthier environment.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li>Residential Cleaning</li>
+                        <li>Commercial Cleaning</li>
+                        <li>Deep Cleaning</li>
+                        <li>Post-Construction</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>📞 +995 555 123 456</p>
+                    <p>📧 info@erixclean.ge</p>
+                    <p>📍 Tbilisi, Georgia</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Erix Clean. All rights reserved. | <a href="/dashboard">Store Monitor Dashboard</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form submission
+        document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                service: formData.get('service'),
+                address: formData.get('address'),
+                message: formData.get('message')
+            };
+
+            try {
+                // Show loading state
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+
+                const response = await fetch('/api/cleaning/quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`✅ ${result.message}\nQuote ID: ${result.quoteId}`);
+                    this.reset();
+                } else {
+                    throw new Error(result.error || 'Failed to submit quote request');
+                }
+
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                // Reset button state
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+
+        // Add some interactive pricing updates
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = this.classList.contains('featured') ? 
+                    'scale(1.05) translateY(-10px)' : 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = this.classList.contains('featured') ? 
+                    'scale(1.05)' : 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

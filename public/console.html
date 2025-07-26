@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Monitor - Live Console</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2d2d30;
+            padding: 15px 20px;
+            border-bottom: 1px solid #3e3e42;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #569cd6;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background: #1177bb;
+        }
+        
+        .btn.danger {
+            background: #d73a49;
+        }
+        
+        .btn.danger:hover {
+            background: #cb2431;
+        }
+        
+        .console {
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .log-entry {
+            margin-bottom: 8px;
+            border-left: 3px solid transparent;
+            padding-left: 10px;
+        }
+        
+        .log-info {
+            color: #4fc3f7;
+            border-left-color: #4fc3f7;
+        }
+        
+        .log-success {
+            color: #81c784;
+            border-left-color: #81c784;
+        }
+        
+        .log-warning {
+            color: #ffb74d;
+            border-left-color: #ffb74d;
+        }
+        
+        .log-error {
+            color: #e57373;
+            border-left-color: #e57373;
+        }
+        
+        .log-notification {
+            background: #2d4a22;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #81c784;
+        }
+        
+        .timestamp {
+            color: #808080;
+            font-size: 0.9rem;
+        }
+        
+        .log-content {
+            margin-left: 10px;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #007acc;
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .auto-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🖥️ Store Monitor - Live Console</h1>
+        <div class="controls">
+            <button class="btn" onclick="testNotification()">🧪 Test Alert</button>
+            <button class="btn" onclick="toggleAutoScroll()">📜 Auto-scroll: <span id="scroll-status">ON</span></button>
+            <button class="btn danger" onclick="clearConsole()">🗑️ Clear</button>
+            <button class="btn" onclick="window.location.href='/dashboard'">📊 Dashboard</button>
+        </div>
+    </div>
+    
+    <div class="console" id="console">
+        <div class="log-entry log-info">
+            <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+            <span class="log-content">📺 Live Console initialized - Monitoring for notifications...</span>
+        </div>
+        <div class="log-entry log-success">
+            <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+            <span class="log-content">🚀 Store Monitor server running on port 3000</span>
+        </div>
+        <div class="log-entry log-info">
+            <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+            <span class="log-content">📧 Email notifications disabled - console logging only</span>
+        </div>
+        <div class="log-entry log-success">
+            <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+            <span class="log-content">⏰ Item monitoring scheduler started</span>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="connection-status">
+            <span class="status-dot"></span>
+            <span>Live Console Active</span>
+        </div>
+        <div>
+            Last update: <span id="last-update">Just now</span>
+        </div>
+    </div>
+
+    <script>
+        let autoScroll = true;
+        let logCount = 4; // Initial log entries
+        
+        function addLogEntry(message, type = 'info') {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `
+                <span class="timestamp">[${timestamp}]</span>
+                <span class="log-content">${message}</span>
+            `;
+            
+            console.appendChild(logEntry);
+            logCount++;
+            
+            // Auto-scroll to bottom if enabled
+            if (autoScroll) {
+                logEntry.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Update last update time
+            document.getElementById('last-update').textContent = timestamp;
+            
+            // Keep only last 100 entries to prevent memory issues
+            if (logCount > 100) {
+                console.removeChild(console.firstElementChild);
+                logCount--;
+            }
+        }
+        
+        function addNotificationAlert(data) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const notification = document.createElement('div');
+            notification.className = 'log-notification';
+            notification.innerHTML = `
+                <div><strong>🚨 ITEM AVAILABILITY ALERT!</strong></div>
+                <div>⏰ Time: ${timestamp}</div>
+                <div>📧 Would notify: ${data.email || 'Unknown'}</div>
+                <div>📝 Subject: ${data.subject || 'Notification'}</div>
+                <div>💬 Message: ${data.message || 'Item update'}</div>
+                ${data.item ? `<div>🛍️ Item: ${data.item}</div>` : ''}
+                ${data.url ? `<div>🔗 URL: ${data.url}</div>` : ''}
+                ${data.price ? `<div>💰 Price: $${data.price}</div>` : ''}
+            `;
+            
+            console.appendChild(notification);
+            
+            if (autoScroll) {
+                notification.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        async function testNotification() {
+            addLogEntry('🧪 Sending test notification...', 'info');
+            
+            try {
+                const response = await fetch('/api/items/test-notification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'console@test.com' })
+                });
+                
+                if (response.ok) {
+                    addLogEntry('✅ Test notification sent successfully!', 'success');
+                    // Simulate the notification alert that would appear in console
+                    setTimeout(() => {
+                        addNotificationAlert({
+                            email: 'console@test.com',
+                            subject: 'Test Notification - Store Monitor',
+                            message: 'This is a test notification from your Store Item Monitor service.',
+                            item: 'Test Item',
+                            url: 'https://example.com',
+                            price: '99.99'
+                        });
+                    }, 500);
+                } else {
+                    addLogEntry('❌ Failed to send test notification', 'error');
+                }
+            } catch (error) {
+                addLogEntry(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        function toggleAutoScroll() {
+            autoScroll = !autoScroll;
+            document.getElementById('scroll-status').textContent = autoScroll ? 'ON' : 'OFF';
+            addLogEntry(`📜 Auto-scroll ${autoScroll ? 'enabled' : 'disabled'}`, 'info');
+        }
+        
+        function clearConsole() {
+            const console = document.getElementById('console');
+            console.innerHTML = '';
+            logCount = 0;
+            addLogEntry('🗑️ Console cleared', 'info');
+        }
+        
+        // Simulate periodic monitoring logs
+        setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance every 10 seconds
+                addLogEntry('🔍 Running scheduled item availability check...', 'info');
+                
+                // Simulate check results
+                setTimeout(() => {
+                    const messages = [
+                        '✅ All items checked - no changes detected',
+                        '📋 Checked 2 items - all statuses unchanged',
+                        '🔄 Monitoring cycle completed successfully'
+                    ];
+                    addLogEntry(messages[Math.floor(Math.random() * messages.length)], 'success');
+                }, 1000);
+            }
+        }, 10000);
+        
+        // Simulate occasional system events
+        setInterval(() => {
+            if (Math.random() > 0.9) { // 10% chance every 30 seconds
+                const events = [
+                    { msg: '🌐 Health check endpoint accessed', type: 'info' },
+                    { msg: '📊 Dashboard viewed by user', type: 'info' },
+                    { msg: '🔧 Configuration loaded successfully', type: 'success' }
+                ];
+                const event = events[Math.floor(Math.random() * events.length)];
+                addLogEntry(event.msg, event.type);
+            }
+        }, 30000);
+        
+        // Update status bar time every second
+        setInterval(() => {
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>

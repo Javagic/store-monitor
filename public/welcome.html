@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erix Clean - Welcome Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: #333;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="dots" patternUnits="userSpaceOnUse" width="30" height="30"><circle cx="15" cy="15" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1200" height="600" fill="url(%23dots)"/></svg>');
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Pages Section */
+        .pages {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .page-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .page-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .page-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .page-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .page-features li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .check-icon {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .page-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .page-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-live {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-internal {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-new {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        /* Tools Section */
+        .tools {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f8ff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .tool-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-buttons {
+                justify-content: center;
+            }
+
+            .hero-features {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">ERIX CLEAN HUB</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#pages">Pages</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="/cleaning">🧹 Main Site</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Erix Clean</h1>
+            <p>Your comprehensive hub for professional cleaning services, internal tools, and business management in Tbilisi</p>
+            
+            <div class="hero-features">
+                <div class="feature-item">
+                    <div class="feature-icon">🧹</div>
+                    <div class="feature-title">Cleaning Services</div>
+                    <div class="feature-desc">Professional cleaning for homes & offices</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">📅</div>
+                    <div class="feature-title">Schedule Management</div>
+                    <div class="feature-desc">Internal booking & staff coordination</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">AI Tools</div>
+                    <div class="feature-desc">Image generation & automation</div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Monitoring</div>
+                    <div class="feature-desc">Store availability & notifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pages Section -->
+    <section class="pages" id="pages">
+        <div class="container">
+            <h2 class="section-title">All Pages & Services</h2>
+            <p class="section-subtitle">Explore our complete collection of web applications and tools</p>
+            
+            <div class="pages-grid">
+                <!-- Main Cleaning Service -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-live">LIVE</div>
+                    <div class="page-header">
+                        <div class="page-icon">🧹</div>
+                        <h3 class="page-title">Main Cleaning Service</h3>
+                    </div>
+                    <p class="page-description">Professional cleaning services website with wave-inspired gallery, service pricing, and contact forms. Features portrait image masonry layout and responsive design.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> Wave-inspired gallery design</li>
+                        <li><span class="check-icon">✓</span> Portrait image optimization</li>
+                        <li><span class="check-icon">✓</span> Service pricing & booking</li>
+                        <li><span class="check-icon">✓</span> Contact forms & quotes</li>
+                        <li><span class="check-icon">✓</span> Mobile responsive</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/cleaning" class="btn">Visit Site</a>
+                        <a href="/cleaning#gallery" class="btn-secondary">View Gallery</a>
+                    </div>
+                </div>
+
+                <!-- Modern Services Page -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-new">NEW</div>
+                    <div class="page-header">
+                        <div class="page-icon">💫</div>
+                        <h3 class="page-title">Modern Services Page</h3>
+                    </div>
+                    <p class="page-description">Greeny Home-inspired design with interactive calculator, before/after gallery, detailed service breakdown, and customer testimonials. Modern gradient design with smooth animations.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> Interactive price calculator</li>
+                        <li><span class="check-icon">✓</span> Before/after image gallery</li>
+                        <li><span class="check-icon">✓</span> Detailed service breakdown</li>
+                        <li><span class="check-icon">✓</span> Customer testimonials</li>
+                        <li><span class="check-icon">✓</span> FAQ section</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/services" class="btn">Explore Services</a>
+                        <a href="/services#calculator" class="btn-secondary">Try Calculator</a>
+                    </div>
+                </div>
+
+                <!-- Schedule Management -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-internal">INTERNAL</div>
+                    <div class="page-header">
+                        <div class="page-icon">📅</div>
+                        <h3 class="page-title">Schedule Management</h3>
+                    </div>
+                    <p class="page-description">Internal schedule management system for cleaners, clients, and appointments. Features calendar view, staff management, and booking coordination for business operations.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> Monthly calendar view</li>
+                        <li><span class="check-icon">✓</span> Cleaner management</li>
+                        <li><span class="check-icon">✓</span> Client database</li>
+                        <li><span class="check-icon">✓</span> Appointment booking</li>
+                        <li><span class="check-icon">✓</span> Status tracking</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/schedule" class="btn">Manage Schedule</a>
+                        <a href="/schedule#cleaners" class="btn-secondary">View Staff</a>
+                    </div>
+                </div>
+
+                <!-- AI Image Generator -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-live">LIVE</div>
+                    <div class="page-header">
+                        <div class="page-icon">🤖</div>
+                        <h3 class="page-title">AI Image Generator</h3>
+                    </div>
+                    <p class="page-description">OpenAI DALL-E 3 integration for generating professional cleaning-related images. Features specialized prompts, automatic download, and local storage management.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> DALL-E 3 integration</li>
+                        <li><span class="check-icon">✓</span> Cleaning-focused prompts</li>
+                        <li><span class="check-icon">✓</span> Automatic image download</li>
+                        <li><span class="check-icon">✓</span> Professional interface</li>
+                        <li><span class="check-icon">✓</span> Cost tracking</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/ai-generator.html" class="btn">Generate Images</a>
+                        <a href="/ai-generator.html#gallery" class="btn-secondary">View Gallery</a>
+                    </div>
+                </div>
+
+                <!-- Store Monitor Dashboard -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-live">LIVE</div>
+                    <div class="page-header">
+                        <div class="page-icon">🎯</div>
+                        <h3 class="page-title">Store Monitor Dashboard</h3>
+                    </div>
+                    <p class="page-description">Original store monitoring system with web scraping, item tracking, and console-based notifications. Monitor online store availability and price changes.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> Item availability monitoring</li>
+                        <li><span class="check-icon">✓</span> Console notifications</li>
+                        <li><span class="check-icon">✓</span> Price tracking</li>
+                        <li><span class="check-icon">✓</span> Web scraping tools</li>
+                        <li><span class="check-icon">✓</span> Status dashboard</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/dashboard" class="btn">View Dashboard</a>
+                        <a href="/status.html" class="btn-secondary">Check Status</a>
+                    </div>
+                </div>
+
+                <!-- Console Viewer -->
+                <div class="page-card fade-in">
+                    <div class="page-status status-internal">INTERNAL</div>
+                    <div class="page-header">
+                        <div class="page-icon">💻</div>
+                        <h3 class="page-title">Console Viewer</h3>
+                    </div>
+                    <p class="page-description">Real-time console output viewer for monitoring server logs, notifications, and system messages. Provides web-based access to terminal output.</p>
+                    <ul class="page-features">
+                        <li><span class="check-icon">✓</span> Real-time log viewing</li>
+                        <li><span class="check-icon">✓</span> Server message monitoring</li>
+                        <li><span class="check-icon">✓</span> Notification tracking</li>
+                        <li><span class="check-icon">✓</span> Web-based terminal</li>
+                        <li><span class="check-icon">✓</span> Auto-refresh</li>
+                    </ul>
+                    <div class="page-buttons">
+                        <a href="/console.html" class="btn">View Console</a>
+                        <a href="/console.html#logs" class="btn-secondary">Monitor Logs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <h2 class="section-title">Development Tools</h2>
+            <p class="section-subtitle">Additional utilities and development resources</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">🔧</div>
+                    <h4 class="tool-title">SVG Converter</h4>
+                    <p class="tool-desc">Convert and optimize SVG files for web use</p>
+                    <a href="/svg-converter.html" class="btn">Open Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📊</div>
+                    <h4 class="tool-title">API Endpoints</h4>
+                    <p class="tool-desc">RESTful API for images and cleaning quotes</p>
+                    <a href="/api/health" class="btn">Health Check</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">🖼️</div>
+                    <h4 class="tool-title">Image Assets</h4>
+                    <p class="tool-desc">Generated and uploaded image gallery</p>
+                    <a href="/assets/" class="btn">Browse Assets</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📱</div>
+                    <h4 class="tool-title">Mobile Testing</h4>
+                    <p class="tool-desc">Responsive design testing tools</p>
+                    <a href="/cleaning" class="btn">Test Mobile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Active Pages</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Gallery Images</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Erix Clean Hub</h3>
+                    <p>Comprehensive business management platform combining cleaning services, staff scheduling, and advanced monitoring tools for professional operations in Tbilisi.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Access</h3>
+                    <div class="footer-links">
+                        <a href="/cleaning">Cleaning Service</a>
+                        <a href="/services">Modern Services</a>
+                        <a href="/schedule">Schedule Manager</a>
+                        <a href="/dashboard">Store Monitor</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>📞 +995 555 123 456</p>
+                    <p>📧 info@erixclean.ge</p>
+                    <p>📍 Tbilisi, Georgia</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Erix Clean. All rights reserved. | Professional cleaning services and business management platform</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.page-card, .tool-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add hover effects to feature items
+            document.querySelectorAll('.feature-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.05)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-5px) scale(1)';
+                });
+            });
+
+            // Add loading animation to stats
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const finalValue = stat.textContent;
+                if (!isNaN(parseInt(finalValue))) {
+                    let current = 0;
+                    const increment = parseInt(finalValue) / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= parseInt(finalValue)) {
+                            stat.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(current);
+                        }
+                    }, 50);
+                }
+            });
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.page-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 25px 50px rgba(102, 126, 234, 0.25)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
