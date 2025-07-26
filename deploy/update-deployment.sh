@@ -13,6 +13,11 @@ cd /var/www/store-monitor
 echo "⏹️  Stopping current application..."
 pm2 stop store-monitor 2>/dev/null || true
 
+# Handle local changes that might conflict
+echo "🔧 Handling local changes..."
+git add .
+git stash push -m "Auto-stash before deployment $(date)"
+
 # Pull latest code from GitHub
 echo "📥 Pulling latest code from GitHub..."
 git pull origin main
