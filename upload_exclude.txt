@@ -4,3 +4,8 @@ temp_upload\
 .env
 *.log
 logs\
+.vscode\
+image\
+.gitignore
+AI_IMAGE_INTEGRATION.md
+README.md
