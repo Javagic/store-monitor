@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cron = require('cron');
 const path = require('path');
+const session = require('express-session');
 require('dotenv').config();
 
 const ItemMonitor = require('./src/services/itemMonitor');
@@ -24,12 +25,215 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session middleware for admin protection
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'erix-clean-admin-secret-key-change-in-production',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: false, // Set to true if using HTTPS
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// Admin protection with rate limiting
+const adminAttempts = new Map(); // Store failed attempts by IP
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'; // Change this!
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_TIME = 15 * 60 * 1000; // 15 minutes
+
+function isIPLocked(ip) {
+    const attempts = adminAttempts.get(ip);
+    if (!attempts) return false;
+    
+    if (attempts.count >= MAX_ATTEMPTS) {
+        const timePassed = Date.now() - attempts.lastAttempt;
+        if (timePassed < LOCKOUT_TIME) {
+            return true;
+        } else {
+            // Reset attempts after lockout period
+            adminAttempts.delete(ip);
+            return false;
+        }
+    }
+    return false;
+}
+
+function recordFailedAttempt(ip) {
+    const attempts = adminAttempts.get(ip) || { count: 0, lastAttempt: 0 };
+    attempts.count++;
+    attempts.lastAttempt = Date.now();
+    adminAttempts.set(ip, attempts);
+}
+
+function resetAttempts(ip) {
+    adminAttempts.delete(ip);
+}
+
 // Serve static files (dashboard)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Admin dashboard route
+// Admin authentication routes
 app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'dashboard.html'));
+    const clientIP = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
+    
+    // Check if IP is locked
+    if (isIPLocked(clientIP)) {
+        const attempts = adminAttempts.get(clientIP);
+        const timeLeft = Math.ceil((LOCKOUT_TIME - (Date.now() - attempts.lastAttempt)) / 60000);
+        return res.status(429).send(`
+            <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 100px;">
+                <h2>🔒 Access Temporarily Blocked</h2>
+                <p>Too many failed attempts. Please try again in ${timeLeft} minutes.</p>
+                <p style="color: #666; font-size: 0.9em;">Your IP: ${clientIP}</p>
+            </div>
+        `);
+    }
+    
+    // Check if already authenticated
+    if (req.session.adminAuth) {
+        return res.sendFile(path.join(__dirname, 'public', 'admin', 'dashboard.html'));
+    }
+    
+    // Show login form
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Admin Login - Erix Clean Hub</title>
+            <style>
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    margin: 0; padding: 0; min-height: 100vh;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .login-container {
+                    background: white; padding: 40px; border-radius: 15px;
+                    box-shadow: 0 10px 50px rgba(0,0,0,0.3); width: 100%; max-width: 400px;
+                }
+                h2 { text-align: center; margin-bottom: 30px; color: #333; }
+                .input-group {
+                    position: relative; margin: 10px 0;
+                }
+                input { 
+                    width: 100%; padding: 15px; border: 1px solid #ddd;
+                    border-radius: 8px; font-size: 16px; box-sizing: border-box;
+                    padding-right: 50px;
+                }
+                .password-toggle {
+                    position: absolute; right: 15px; top: 50%;
+                    transform: translateY(-50%); cursor: pointer;
+                    color: #666; font-size: 18px; user-select: none;
+                }
+                .password-toggle:hover { color: #333; }
+                button { 
+                    width: 100%; padding: 15px; background: #667eea; color: white;
+                    border: none; border-radius: 8px; font-size: 16px; cursor: pointer;
+                    transition: background 0.3s ease; margin-top: 10px;
+                }
+                button:hover { background: #5a6fd8; }
+                .error { color: #d32f2f; text-align: center; margin: 10px 0; }
+                .attempts { color: #666; font-size: 0.9em; text-align: center; margin-top: 15px; }
+                .password-hint { color: #888; font-size: 0.8em; text-align: center; margin-top: 10px; }
+            </style>
+        </head>
+        <body>
+            <div class="login-container">
+                <h2>🔐 Admin Access</h2>
+                <form method="post" action="/admin/login">
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Enter admin password" required autofocus>
+                        <span class="password-toggle" onclick="togglePassword()">👁️</span>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="password-hint">
+                    Click the eye icon to show/hide password
+                </div>
+                <div class="attempts">
+                    ${adminAttempts.get(clientIP) ? 
+                        `Failed attempts: ${adminAttempts.get(clientIP).count}/${MAX_ATTEMPTS}` : 
+                        'Enter your admin password to continue'
+                    }
+                </div>
+            </div>
+            
+            <script>
+                function togglePassword() {
+                    const passwordInput = document.getElementById('password');
+                    const toggleIcon = document.querySelector('.password-toggle');
+                    
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggleIcon.textContent = '🙈';
+                        toggleIcon.title = 'Hide password';
+                    } else {
+                        passwordInput.type = 'password';
+                        toggleIcon.textContent = '👁️';
+                        toggleIcon.title = 'Show password';
+                    }
+                }
+                
+                // Add keyboard shortcut for password toggle
+                document.addEventListener('keydown', function(e) {
+                    if (e.ctrlKey && e.key === ' ') {
+                        e.preventDefault();
+                        togglePassword();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+    `);
+});
+
+app.post('/admin/login', (req, res) => {
+    const clientIP = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
+    
+    // Check if IP is locked
+    if (isIPLocked(clientIP)) {
+        return res.status(429).json({ error: 'Too many attempts. Access temporarily blocked.' });
+    }
+    
+    const { password } = req.body;
+    
+    if (password === ADMIN_PASSWORD) {
+        // Successful login
+        req.session.adminAuth = true;
+        resetAttempts(clientIP);
+        console.log(`🔐 Admin login successful from IP: ${clientIP}`);
+        res.redirect('/admin');
+    } else {
+        // Failed login
+        recordFailedAttempt(clientIP);
+        const attempts = adminAttempts.get(clientIP);
+        const remaining = MAX_ATTEMPTS - attempts.count;
+        
+        console.log(`🚨 Failed admin login attempt from IP: ${clientIP} (${attempts.count}/${MAX_ATTEMPTS})`);
+        
+        if (remaining > 0) {
+            res.status(401).send(`
+                <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 100px;">
+                    <h2>❌ Invalid Password</h2>
+                    <p>Attempts remaining: ${remaining}</p>
+                    <a href="/admin" style="color: #667eea;">Try Again</a>
+                </div>
+            `);
+        } else {
+            res.status(429).send(`
+                <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 100px;">
+                    <h2>🔒 Access Blocked</h2>
+                    <p>Too many failed attempts. Access blocked for 15 minutes.</p>
+                </div>
+            `);
+        }
+    }
+});
+
+app.post('/admin/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 // Initialize services
@@ -259,11 +463,6 @@ app.get('/console', (req, res) => {
 // Cleaning service page
 app.get('/cleaning', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'cleaning.html'));
-});
-
-// SVG to PNG converter page
-app.get('/converter', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'svg-converter.html'));
 });
 
 // AI Image Generator page
